@@ -37,6 +37,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
                 xmlns:prov="http://www.w3.org/ns/prov#"
                 xmlns:obo="http://purl.obolibrary.org/obo/"
                 xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+				xmlns:era="http://data.europa.eu/949/"
                 xmlns:sw="http://www.w3.org/2003/06/sw-vocab-status/ns#"
                 xmlns="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://www.oxygenxml.com/ns/doc/xsl
@@ -449,6 +450,7 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:call-template name="get.entity.metadata"/>
             <xsl:call-template name="get.rationale"/>
             <xsl:call-template name="get.example"/>
+			<xsl:call-template name="get.era"/>
             <xsl:call-template name="get.property.description"/>
         </div>
     </xsl:template>
@@ -2105,6 +2107,32 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                     <xsl:value-of select="f:getDescriptionLabel('example')"/>
                 </dt>
                 <xsl:for-each select="vann:example | obo:IAO_0000112 | skos:example">
+                    <dd>
+                        <xsl:choose>
+                            <xsl:when test="normalize-space(@*:resource) = ''">
+                                <pre>
+                                    <xsl:value-of select="text()"/>
+                                </pre>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <a href="{@*:resource}">
+                                    <xsl:value-of select="@*:resource"/>
+                                </a>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </dd>
+                </xsl:for-each>
+            </dl>
+        </xsl:if>
+    </xsl:template>
+	
+	<xsl:template name="get.era">
+        <xsl:if test="exists(era:rinfIndex | era:ERATVIndex)">
+            <dl>
+                <dt>
+                    <xsl:value-of select="f:getDescriptionLabel('example')"/>
+                </dt>
+                <xsl:for-each select="era:rinfIndex | era:ERATVIndex">
                     <dd>
                         <xsl:choose>
                             <xsl:when test="normalize-space(@*:resource) = ''">
