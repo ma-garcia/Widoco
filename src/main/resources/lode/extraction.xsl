@@ -450,7 +450,8 @@ http://www.oxygenxml.com/ns/doc/xsl ">
             <xsl:call-template name="get.entity.metadata"/>
             <xsl:call-template name="get.rationale"/>
             <xsl:call-template name="get.example"/>
-			<xsl:call-template name="get.era"/>
+			<xsl:call-template name="get.rinf"/>
+			<xsl:call-template name="get.eratv"/>
             <xsl:call-template name="get.property.description"/>
         </div>
     </xsl:template>
@@ -2110,9 +2111,9 @@ http://www.oxygenxml.com/ns/doc/xsl ">
                     <dd>
                         <xsl:choose>
                             <xsl:when test="normalize-space(@*:resource) = ''">
-                                <pre>
+                                <dt>
                                     <xsl:value-of select="text()"/>
-                                </pre>
+                                </dt>
                             </xsl:when>
                             <xsl:otherwise>
                                 <a href="{@*:resource}">
@@ -2126,19 +2127,45 @@ http://www.oxygenxml.com/ns/doc/xsl ">
         </xsl:if>
     </xsl:template>
 	
-	<xsl:template name="get.era">
-        <xsl:if test="exists(era:rinfIndex | era:ERATVIndex)">
+	<xsl:template name="get.rinf">
+        <xsl:if test="exists(era:rinfIndex)">
             <dl>
                 <dt>
-                    <xsl:value-of select="f:getDescriptionLabel('example')"/>
+                    <xsl:value-of select="f:getDescriptionLabel('rinfIndex')"/>
                 </dt>
-                <xsl:for-each select="era:rinfIndex | era:ERATVIndex">
+                <xsl:for-each select="era:rinfIndex">
                     <dd>
                         <xsl:choose>
                             <xsl:when test="normalize-space(@*:resource) = ''">
-                                <pre>
+                                
                                     <xsl:value-of select="text()"/>
-                                </pre>
+                                
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <a href="{@*:resource}">
+                                    <xsl:value-of select="@*:resource"/>
+                                </a>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </dd>
+                </xsl:for-each>
+            </dl>
+        </xsl:if>
+    </xsl:template>
+	
+	<xsl:template name="get.eratv">
+        <xsl:if test="exists(era:eratvIndex)">
+            <dl>
+                <dt>
+                    <xsl:value-of select="f:getDescriptionLabel('eratvIndex')"/>
+                </dt>
+                <xsl:for-each select="era:eratvIndex">
+                    <dd>
+                        <xsl:choose>
+                            <xsl:when test="normalize-space(@*:resource) = ''">
+                                
+                                    <xsl:value-of select="text()"/>
+                                
                             </xsl:when>
                             <xsl:otherwise>
                                 <a href="{@*:resource}">
